@@ -7,6 +7,8 @@ builds:
     goos:
       - linux
       - darwin
+    ldflags:
+      - -s -w -X github.com/Arthur1/dpr.Version={{.Version}}
 
 archives:
   - id: dprc
