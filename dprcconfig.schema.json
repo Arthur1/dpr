@@ -1,0 +1,51 @@
+{
+  "$defs": {
+    "Config": {
+      "additionalProperties": false,
+      "properties": {
+        "packages-store": {
+          "additionalProperties": false,
+          "properties": {
+            "s3-bucket-name": {
+              "description": "Amazon S3 bucket name for dpr packages store",
+              "type": "string"
+            }
+          },
+          "required": [
+            "s3-bucket-name"
+          ],
+          "type": "object"
+        },
+        "region": {
+          "description": "AWS region of dpr resources",
+          "examples": [
+            "ap-northeast-1"
+          ],
+          "type": "string"
+        },
+        "tags-db": {
+          "additionalProperties": false,
+          "properties": {
+            "dynamodb-table-name": {
+              "description": "Amazon DynamoDB table name for dpr tags database",
+              "type": "string"
+            }
+          },
+          "required": [
+            "dynamodb-table-name"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "region",
+        "packages-store",
+        "tags-db"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://github.com/Arthur1/dpr/config",
+  "$ref": "#/$defs/Config",
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}
