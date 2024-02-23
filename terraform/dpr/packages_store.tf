@@ -1,6 +1,6 @@
 resource "aws_s3_bucket" "packages_store" {
   bucket = var.packages_store_s3_bucket_name
-  tags = var.tags
+  tags   = var.tags
 }
 
 resource "aws_s3_bucket_server_side_encryption_configuration" "packages_store" {
