@@ -58,7 +58,7 @@ func (c *PullCmd) Run(globals *Globals) error {
 		return err
 	}
 
-	if true {
+	if c.CheckOnly {
 		if _, err := s3Client.HeadObject(ctx, &s3.HeadObjectInput{
 			Bucket: aws.String(cfg.PackagesStore.S3BucketName),
 			Key:    aws.String(tagRow.ObjectKey),
