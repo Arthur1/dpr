@@ -6,11 +6,25 @@ on:
 jobs:
   lint:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: terraform/dpr
     steps:
       - uses: actions/checkout@v4
       - uses: hashicorp/setup-terraform@v3
       - name: terraform format
         run: terraform fmt -check
+        working-directory: terraform/dpr
+
+  docsgen-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: terraform-docs/gh-actions@v1
+        with:
+          output-file: README.md
+          output-method: inject
+          working-dir: terraform/dpr
+      - run: |
+          DIFF=$(git status --porcelain)
+          if [ -n "$DIFF" ]; then
+            echo "$DIFF"
+            exit 1
+          fi
