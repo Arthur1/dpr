@@ -18,6 +18,8 @@ jobs:
         with:
           app-id: 364898
           private-key: ${{ secrets.ARTHUR1_BOT_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repositories: "dpr,homebrew-tap"
       - uses: goreleaser/goreleaser-action@v5
         with:
           args: release --clean
