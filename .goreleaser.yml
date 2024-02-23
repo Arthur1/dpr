@@ -1,5 +1,8 @@
 builds:
-  - env:
+  - id: dprc
+    main: ./cmd/dprc
+    binary: dprc
+    env:
       - CGO_ENABLED=0
     goos:
       - linux
@@ -17,15 +20,15 @@ archives:
       {{- else }}{{ .Arch }}{{ end }}
       {{- if .Arm }}v{{ .Arm }}{{ end }}
 checksum:
-  name_template: 'checksums.txt'
+  name_template: "checksums.txt"
 snapshot:
   name_template: "{{ incpatch .Version }}-next"
 changelog:
   sort: asc
   filters:
     exclude:
-      - '^docs:'
-      - '^test:'
+      - "^docs:"
+      - "^test:"
 
 brews:
   - repository:
