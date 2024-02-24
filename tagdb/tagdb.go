@@ -6,6 +6,7 @@ import (
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue"
+	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/expression"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
 )
@@ -93,4 +94,47 @@ func (c *Client) GetAll(ctx context.Context) ([]*TagRow, error) {
 		tagRows = append(tagRows, page...)
 	}
 	return tagRows, nil
+}
+
+type DeleteByObjectKeyInput struct {
+	ObjectKey string
+}
+
+func (c *Client) DeleteByObjectKey(ctx context.Context, input *DeleteByObjectKeyInput) error {
+	keyEx := expression.Key("object_key").Equal(expression.Value(input.ObjectKey))
+	expr, err := expression.NewBuilder().WithKeyCondition(keyEx).Build()
+	if err != nil {
+		return err
+	}
+
+	tagRows := []*TagRow{}
+	queryPaginator := dynamodb.NewQueryPaginator(c.dynamodbCli, &dynamodb.QueryInput{
+		TableName:                 aws.String(c.tableName),
+		IndexName:                 aws.String("index_object_key_tag"),
+		ExpressionAttributeNames:  expr.Names(),
+		ExpressionAttributeValues: expr.Values(),
+		KeyConditionExpression:    expr.KeyCondition(),
+	})
+	for queryPaginator.HasMorePages() {
+		response, err := queryPaginator.NextPage(ctx)
+		if err != nil {
+			return err
+		}
+		page := []*TagRow{}
+		if err = attributevalue.UnmarshalListOfMaps(response.Items, &page); err != nil {
+			return err
+		}
+		tagRows = append(tagRows, page...)
+	}
+
+	for _, tagRow := range tagRows {
+		if _, err := c.dynamodbCli.DeleteItem(ctx, &dynamodb.DeleteItemInput{
+			TableName: aws.String(c.tableName),
+			Key:       tagRow.GetKey(),
+		}); err != nil {
+			return err
+		}
+	}
+
+	return nil
 }

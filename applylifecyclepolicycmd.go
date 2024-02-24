@@ -9,6 +9,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/Arthur1/dpr/packagestore"
 	"github.com/Arthur1/dpr/tagdb"
 	"github.com/k1LoW/duration"
 )
@@ -32,12 +33,13 @@ func (c *ApplyLifecyclePolicyCmd) Run(globals *Globals) error {
 		return err
 	}
 
+	packagestoreClient := packagestore.NewClient(cfg.AwsConfig, cfg.PackageStore.S3BucketName)
 	tagDBClient := tagdb.NewClient(cfg.AwsConfig, cfg.TagDB.DynamoDBTableName)
 
 	var targetObjectKeys []string
 	for _, rule := range policy.Rules {
-		if rule.Action.Type != ActionTypeExpired {
-			return fmt.Errorf("\"%s\" is only supported for action.type value", ActionTypeExpired)
+		if rule.Action.Type != ActionTypeExpire {
+			return fmt.Errorf("\"%s\" is only supported for action.type value", ActionTypeExpire)
 		}
 
 		var filterFunc func(int, int, *tagdb.TagRow) bool
@@ -74,11 +76,33 @@ func (c *ApplyLifecyclePolicyCmd) Run(globals *Globals) error {
 	slices.Sort(targetObjectKeys)
 	targetObjectKeys = slices.Compact(targetObjectKeys)
 
-	fmt.Printf("%+v\n", targetObjectKeys)
-	if c.DryRun {
+	if len(targetObjectKeys) > 0 {
+		fmt.Println("The following packages are expired:")
+		for _, objectKey := range targetObjectKeys {
+			fmt.Printf("- %s\n", objectKey)
+		}
+	} else {
+		fmt.Println("No packages are expired.")
+	}
+
+	if c.DryRun || len(targetObjectKeys) == 0 {
 		return nil
 	}
 
+	for _, objectKey := range targetObjectKeys {
+		if err := tagDBClient.DeleteByObjectKey(ctx, &tagdb.DeleteByObjectKeyInput{
+			ObjectKey: objectKey,
+		}); err != nil {
+			return err
+		}
+	}
+
+	if err := packagestoreClient.DeletePackages(ctx, &packagestore.DeletePackagesInput{
+		ObjectKeys: targetObjectKeys,
+	}); err != nil {
+		return err
+	}
+	fmt.Println("Deleted.")
 	return nil
 }
 

@@ -7,6 +7,7 @@ import (
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/s3"
+	"github.com/aws/aws-sdk-go-v2/service/s3/types"
 	"github.com/gabriel-vasile/mimetype"
 )
 
@@ -73,4 +74,25 @@ func (c *Client) ExistsPackage(ctx context.Context, input *ExistsPackageInput) (
 		return false, err
 	}
 	return true, nil
+}
+
+type DeletePackagesInput struct {
+	ObjectKeys []string
+}
+
+func (c *Client) DeletePackages(ctx context.Context, input *DeletePackagesInput) error {
+	if len(input.ObjectKeys) == 0 {
+		return nil
+	}
+
+	objectIds := make([]types.ObjectIdentifier, 0, len(input.ObjectKeys))
+	for _, objectKey := range input.ObjectKeys {
+		objectIds = append(objectIds, types.ObjectIdentifier{Key: aws.String(objectKey)})
+	}
+
+	_, err := c.s3Cli.DeleteObjects(ctx, &s3.DeleteObjectsInput{
+		Bucket: aws.String(c.bucketName),
+		Delete: &types.Delete{Objects: objectIds},
+	})
+	return err
 }

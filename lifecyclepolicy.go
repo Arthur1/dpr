@@ -23,7 +23,7 @@ const (
 type ActionType = string
 
 const (
-	ActionTypeExpired ActionType = "expired"
+	ActionTypeExpire ActionType = "expire"
 )
 
 type LifecyclePolicy struct {
@@ -36,7 +36,7 @@ type LifecyclePolicy struct {
 			CountValue int64  `yaml:"count-value" json:"count-value" jsonschema:"required"`
 		} `yaml:"selection" json:"selection" jsonschema:"required"`
 		Action struct {
-			Type string `yaml:"type" json:"type" jsonschema:"required,enum=expired"`
+			Type string `yaml:"type" json:"type" jsonschema:"required,enum=expire"`
 		} `yaml:"action" json:"action" jsonschema:"required"`
 	} `yaml:"rules" json:"rules" jsonschema:"required"`
 }

@@ -12,7 +12,7 @@
                 "properties": {
                   "type": {
                     "enum": [
-                      "expired"
+                      "expire"
                     ],
                     "type": "string"
                   }
