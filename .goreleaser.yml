@@ -9,6 +9,17 @@ builds:
       - darwin
     ldflags:
       - -s -w -X github.com/Arthur1/dpr.Version={{.Version}}
+  - id: dpr-cleaner-eventbridge-lambda
+    main: ./cmd/dpr-cleaner-eventbridge-lambda
+    binary: bootstrap
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+    goarch:
+      - arm64
+    ldflags:
+      - -s -w -X github.com/Arthur1/dpr.Version={{.Version}}
 
 archives:
   - id: dprc
@@ -22,6 +33,11 @@ archives:
       {{- else if eq .Arch "386" }}i386
       {{- else }}{{ .Arch }}{{ end }}
       {{- if .Arm }}v{{ .Arm }}{{ end }}
+  - id: dpr-cleaner-eventbridge-lambda
+    format: zip
+    builds:
+      - dpr-cleaner-eventbridge-lambda
+    name_template: dpr-cleaner-eventbridge-lambda
 checksum:
   name_template: "checksums.txt"
 snapshot:
