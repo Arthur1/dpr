@@ -44,7 +44,7 @@ No modules.
 | <a name="input_package_store_s3_bucket_arn"></a> [package\_store\_s3\_bucket\_arn](#input\_package\_store\_s3\_bucket\_arn) | arn of S3 bucket for package store | `string` | n/a | yes |
 | <a name="input_rule_is_enabled"></a> [rule\_is\_enabled](#input\_rule\_is\_enabled) | n/a | `bool` | `true` | no |
 | <a name="input_rule_name"></a> [rule\_name](#input\_rule\_name) | n/a | `string` | `"dpr-cleaner-schedule"` | no |
-| <a name="input_rule_schedule_expression"></a> [rule\_schedule\_expression](#input\_rule\_schedule\_expression) | n/a | `string` | `"rate(5 minutes)"` | no |
+| <a name="input_rule_schedule_expression"></a> [rule\_schedule\_expression](#input\_rule\_schedule\_expression) | n/a | `string` | `"rate(24 hours)"` | no |
 | <a name="input_tag_db_dynamodb_table_arn"></a> [tag\_db\_dynamodb\_table\_arn](#input\_tag\_db\_dynamodb\_table\_arn) | arn of DynamoDB table for tag database | `string` | n/a | yes |
 | <a name="input_tags"></a> [tags](#input\_tags) | n/a | `map(string)` | `{}` | no |
 

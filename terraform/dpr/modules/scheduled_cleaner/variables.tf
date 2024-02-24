@@ -34,7 +34,7 @@ variable "rule_is_enabled" {
 
 variable "rule_schedule_expression" {
   type    = string
-  default = "rate(5 minutes)"
+  default = "rate(24 hours)"
 }
 
 variable "tags" {
