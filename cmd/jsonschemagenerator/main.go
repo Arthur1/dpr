@@ -5,14 +5,15 @@ import (
 	"log"
 	"os"
 
-	"github.com/Arthur1/dpr"
+	"github.com/Arthur1/dpr/internal/cli"
+	"github.com/Arthur1/dpr/lifecyclepolicy"
 	"github.com/invopop/jsonschema"
 )
 
 func main() {
 	cases := map[any]string{
-		new(dpr.RawConfig):       "dprcconfig.schema.json",
-		new(dpr.LifecyclePolicy): "dprlifecyclepolicy.schema.json",
+		new(cli.RawConfig):                   "dprcconfig.schema.json",
+		new(lifecyclepolicy.LifecyclePolicy): "dprlifecyclepolicy.schema.json",
 	}
 	for obj, file := range cases {
 		schema := jsonschema.Reflect(obj)

@@ -1,11 +1,7 @@
-package dpr
+package cli
 
 import (
 	"github.com/alecthomas/kong"
-)
-
-var (
-	Version string = "unknown"
 )
 
 type Globals struct {

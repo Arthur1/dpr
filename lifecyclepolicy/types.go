@@ -1,4 +1,4 @@
-package dpr
+package lifecyclepolicy
 
 import (
 	"io"

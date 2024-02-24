@@ -45,7 +45,7 @@
       "type": "object"
     }
   },
-  "$id": "https://github.com/Arthur1/dpr/raw-config",
+  "$id": "https://github.com/Arthur1/dpr/internal/cli/raw-config",
   "$ref": "#/$defs/RawConfig",
   "$schema": "https://json-schema.org/draft/2020-12/schema"
 }

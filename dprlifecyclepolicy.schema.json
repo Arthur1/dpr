@@ -79,7 +79,7 @@
       "type": "object"
     }
   },
-  "$id": "https://github.com/Arthur1/dpr/lifecycle-policy",
+  "$id": "https://github.com/Arthur1/dpr/lifecyclepolicy/lifecycle-policy",
   "$ref": "#/$defs/LifecyclePolicy",
   "$schema": "https://json-schema.org/draft/2020-12/schema"
 }

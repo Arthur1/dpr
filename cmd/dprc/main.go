@@ -1,8 +1,8 @@
 package main
 
-import "github.com/Arthur1/dpr"
+import "github.com/Arthur1/dpr/internal/cli"
 
 func main() {
-	cli := &dpr.Cli{}
-	cli.Run()
+	c := &cli.Cli{}
+	c.Run()
 }
