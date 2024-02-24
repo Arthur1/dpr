@@ -4,6 +4,6 @@ module "scheduled_cleaner" {
   tag_db_dynamodb_table_name   = aws_dynamodb_table.tag_db.name
   lifecycle_policy_file_path   = var.lifecycle_policy_file_path
   function_name                = "dpr-scheduled-cleaner"
-  rule_schedule_expression     = "rate(5 minutes)"
+  rule_schedule_expression     = var.scheduled_cleaner_schedule_expression
   tags                         = var.tags
 }
