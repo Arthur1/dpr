@@ -5,6 +5,10 @@ resource "aws_dynamodb_table" "tag_db" {
   write_capacity = 3
 
   attribute {
+    name = "type"
+    type = "S"
+  }
+  attribute {
     name = "tag"
     type = "S"
   }
@@ -12,7 +16,8 @@ resource "aws_dynamodb_table" "tag_db" {
     name = "object_key"
     type = "S"
   }
-  hash_key = "tag"
+  hash_key  = "type"
+  range_key = "tag"
 
   global_secondary_index {
     name            = "index_object_key_tag"
