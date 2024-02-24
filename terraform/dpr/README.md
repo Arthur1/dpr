@@ -32,10 +32,11 @@
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_lifecycle_policy_file_path"></a> [lifecycle\_policy\_file\_path](#input\_lifecycle\_policy\_file\_path) | path of lifecyle policy's yaml file | `string` | n/a | yes |
+| <a name="input_lifecycle_policy_file_path"></a> [lifecycle\_policy\_file\_path](#input\_lifecycle\_policy\_file\_path) | path of lifecycle policy's yaml file | `string` | n/a | yes |
 | <a name="input_package_store_s3_bucket_name"></a> [package\_store\_s3\_bucket\_name](#input\_package\_store\_s3\_bucket\_name) | name of S3 bucket name for package store | `string` | n/a | yes |
+| <a name="input_scheduled_cleaner_schedule_expression"></a> [scheduled\_cleaner\_schedule\_expression](#input\_scheduled\_cleaner\_schedule\_expression) | schedule expression for cleaner | `string` | `"rate(24 hours)"` | no |
 | <a name="input_tag_db_dynamodb_table_name"></a> [tag\_db\_dynamodb\_table\_name](#input\_tag\_db\_dynamodb\_table\_name) | name of DynamoDB table name for tag database | `string` | n/a | yes |
-| <a name="input_tags"></a> [tags](#input\_tags) | n/a | `map(string)` | `{}` | no |
+| <a name="input_tags"></a> [tags](#input\_tags) | tags for generated AWS resources | `map(string)` | `{}` | no |
 
 ## Outputs
 

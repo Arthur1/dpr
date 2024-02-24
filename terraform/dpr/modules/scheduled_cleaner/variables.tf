@@ -9,21 +9,25 @@ variable "tag_db_dynamodb_table_name" {
 }
 
 variable "lifecycle_policy_file_path" {
-  type = string
+  description = "path of lifecycle policy yaml file"
+  type        = string
 }
 
 variable "function_name" {
-  type = string
+  description = "name of function to clean the registry"
+  type        = string
 }
 
 variable "function_timeout" {
-  type    = number
-  default = 7
+  description = "timeout seconds to clean"
+  type        = number
+  default     = 7
 }
 
 variable "function_memory_size" {
-  type    = number
-  default = 128
+  description = "memory size of function to clean the registry"
+  type        = number
+  default     = 128
 }
 
 variable "rule_name" {

@@ -41,10 +41,10 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_function_memory_size"></a> [function\_memory\_size](#input\_function\_memory\_size) | n/a | `number` | `128` | no |
-| <a name="input_function_name"></a> [function\_name](#input\_function\_name) | n/a | `string` | n/a | yes |
-| <a name="input_function_timeout"></a> [function\_timeout](#input\_function\_timeout) | n/a | `number` | `7` | no |
-| <a name="input_lifecycle_policy_file_path"></a> [lifecycle\_policy\_file\_path](#input\_lifecycle\_policy\_file\_path) | n/a | `string` | n/a | yes |
+| <a name="input_function_memory_size"></a> [function\_memory\_size](#input\_function\_memory\_size) | memory size of function to clean the registry | `number` | `128` | no |
+| <a name="input_function_name"></a> [function\_name](#input\_function\_name) | name of function to clean the registry | `string` | n/a | yes |
+| <a name="input_function_timeout"></a> [function\_timeout](#input\_function\_timeout) | timeout seconds to clean | `number` | `7` | no |
+| <a name="input_lifecycle_policy_file_path"></a> [lifecycle\_policy\_file\_path](#input\_lifecycle\_policy\_file\_path) | path of lifecycle policy yaml file | `string` | n/a | yes |
 | <a name="input_package_store_s3_bucket_name"></a> [package\_store\_s3\_bucket\_name](#input\_package\_store\_s3\_bucket\_name) | name of S3 bucket for package store | `string` | n/a | yes |
 | <a name="input_rule_is_enabled"></a> [rule\_is\_enabled](#input\_rule\_is\_enabled) | n/a | `bool` | `true` | no |
 | <a name="input_rule_name"></a> [rule\_name](#input\_rule\_name) | n/a | `string` | `"dpr-cleaner-schedule"` | no |

@@ -9,11 +9,18 @@ variable "tag_db_dynamodb_table_name" {
 }
 
 variable "lifecycle_policy_file_path" {
-  description = "path of lifecyle policy's yaml file"
+  description = "path of lifecycle policy's yaml file"
   type        = string
 }
 
+variable "scheduled_cleaner_schedule_expression" {
+  description = "schedule expression for cleaner"
+  type        = string
+  default     = "rate(24 hours)"
+}
+
 variable "tags" {
-  type    = map(string)
-  default = {}
+  description = "tags for generated AWS resources"
+  type        = map(string)
+  default     = {}
 }
