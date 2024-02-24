@@ -27,7 +27,7 @@ type PullCmdOutput struct {
 func (c *PullCmd) Run(globals *Globals) error {
 	ctx := context.TODO()
 
-	cfg, err := globals.ReadConfig()
+	cfg, err := globals.ReadConfig(ctx)
 	if err != nil {
 		return err
 	}

@@ -10,7 +10,6 @@ import (
 	"time"
 
 	"github.com/Arthur1/dpr/tagdb"
-	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/k1LoW/duration"
 )
 
@@ -23,7 +22,7 @@ func (c *ApplyLifecyclePolicyCmd) Run(globals *Globals) error {
 	ctx := context.TODO()
 	defer c.PolicyFile.Close()
 
-	cfg, err := globals.ReadConfig()
+	cfg, err := globals.ReadConfig(ctx)
 	if err != nil {
 		return err
 	}
@@ -33,11 +32,7 @@ func (c *ApplyLifecyclePolicyCmd) Run(globals *Globals) error {
 		return err
 	}
 
-	awsConfig, err := config.LoadDefaultConfig(ctx, config.WithRegion(cfg.Region))
-	if err != nil {
-		return err
-	}
-	tagDBClient := tagdb.NewClient(awsConfig, cfg.TagDB.DynamoDBTableName)
+	tagDBClient := tagdb.NewClient(cfg.AwsConfig, cfg.TagDB.DynamoDBTableName)
 
 	var targetObjectKeys []string
 	for _, rule := range policy.Rules {

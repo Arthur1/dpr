@@ -24,7 +24,7 @@ func (c *PushCmd) Run(globals *Globals) error {
 	ctx := context.TODO()
 	defer c.File.Close()
 
-	cfg, err := globals.ReadConfig()
+	cfg, err := globals.ReadConfig(ctx)
 	if err != nil {
 		return err
 	}
