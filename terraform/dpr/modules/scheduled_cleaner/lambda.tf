@@ -11,4 +11,7 @@ resource "aws_lambda_function" "scheduled_cleaner" {
   filename         = "./dpr-cleaner-eventbridge-lambda.zip"
   source_code_hash = filebase64sha256("./dpr-cleaner-eventbridge-lambda.zip")
   tags             = var.tags
+  depends_on = [
+    terraform_data.dpr_cleaner_eventbridge_lambda
+  ]
 }
