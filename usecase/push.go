@@ -54,7 +54,9 @@ func (u *PushPackageUsecaseImpl) Push(ctx context.Context, param *PushParam) (*P
 			MimeType: file.MimeType,
 		},
 	}
-	u.deployPackageRepository.Save(ctx, dp)
+	if err := u.deployPackageRepository.Save(ctx, dp); err != nil {
+		return nil, err
+	}
 	return &PushResult{
 		DeployPackage: dp,
 	}, nil
