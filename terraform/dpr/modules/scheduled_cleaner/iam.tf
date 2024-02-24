@@ -34,7 +34,7 @@ data "aws_iam_policy_document" "scheduled_cleaner" {
       "dynamodb:DeleteItem",
     ]
     resources = [
-      var.tag_db_dynamodb_table_id
+      var.tag_db_dynamodb_table_arn
     ]
   }
   statement {
@@ -43,12 +43,14 @@ data "aws_iam_policy_document" "scheduled_cleaner" {
       "s3:GetObject",
       "s3:DeleteObject",
     ]
-    resources = [var.package_store_s3_bucket_id]
+    resources = [
+      "${var.package_store_s3_bucket_arn}/*"
+    ]
   }
 }
 
 resource "aws_iam_role_policy" "scheduled_cleaner" {
-  name   = "test_policy"
+  name   = "${var.function_name}-scheduled-cleaner-policy"
   role   = aws_iam_role.scheduled_cleaner.id
   policy = jsonencode(data.aws_iam_policy_document.scheduled_cleaner)
 }

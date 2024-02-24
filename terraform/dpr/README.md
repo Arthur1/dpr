@@ -40,6 +40,8 @@
 
 | Name | Description |
 |------|-------------|
-| <a name="output_packages_store_s3_bucket_id"></a> [packages\_store\_s3\_bucket\_id](#output\_packages\_store\_s3\_bucket\_id) | ID of S3 bucket for packages store |
-| <a name="output_tags_db_dynamodb_table_id"></a> [tags\_db\_dynamodb\_table\_id](#output\_tags\_db\_dynamodb\_table\_id) | ID of DynamoDB table for tags database |
+| <a name="output_package_store_s3_bucket_arn"></a> [package\_store\_s3\_bucket\_arn](#output\_package\_store\_s3\_bucket\_arn) | arn of S3 bucket for packages store |
+| <a name="output_package_store_s3_bucket_id"></a> [package\_store\_s3\_bucket\_id](#output\_package\_store\_s3\_bucket\_id) | ID of S3 bucket for packages store |
+| <a name="output_tag_db_dynamodb_table_arn"></a> [tag\_db\_dynamodb\_table\_arn](#output\_tag\_db\_dynamodb\_table\_arn) | arn of DynamoDB table for tags database |
+| <a name="output_tag_db_dynamodb_table_id"></a> [tag\_db\_dynamodb\_table\_id](#output\_tag\_db\_dynamodb\_table\_id) | ID of DynamoDB table for tags database |
 <!-- END_TF_DOCS -->

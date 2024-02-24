@@ -1,10 +1,10 @@
-variable "package_store_s3_bucket_id" {
-  description = "id pf S3 bucketfor package store"
+variable "package_store_s3_bucket_arn" {
+  description = "arn of S3 bucket for package store"
   type        = string
 }
 
-variable "tag_db_dynamodb_table_id" {
-  description = "id of DynamoDB table for tag database"
+variable "tag_db_dynamodb_table_arn" {
+  description = "arn of DynamoDB table for tag database"
   type        = string
 }
 
@@ -34,7 +34,7 @@ variable "rule_is_enabled" {
 
 variable "rule_schedule_expression" {
   type    = string
-  default = "rate(24 hour)"
+  default = "rate(5 minutes)"
 }
 
 variable "tags" {
