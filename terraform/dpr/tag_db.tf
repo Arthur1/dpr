@@ -1,5 +1,5 @@
-resource "aws_dynamodb_table" "tags_db" {
-  name           = var.tags_db_dynamodb_table_name
+resource "aws_dynamodb_table" "tag_db" {
+  name           = var.tag_db_dynamodb_table_name
   billing_mode   = "PROVISIONED"
   read_capacity  = 3
   write_capacity = 3

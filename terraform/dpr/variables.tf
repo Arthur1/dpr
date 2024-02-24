@@ -1,10 +1,10 @@
-variable "packages_store_s3_bucket_name" {
-  description = "name of S3 bucket name for packages store"
+variable "package_store_s3_bucket_name" {
+  description = "name of S3 bucket name for package store"
   type        = string
 }
 
-variable "tags_db_dynamodb_table_name" {
-  description = "name of DynamoDB table name for tags database"
+variable "tag_db_dynamodb_table_name" {
+  description = "name of DynamoDB table name for tag database"
   type        = string
 }
 

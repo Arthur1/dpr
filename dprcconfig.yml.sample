@@ -1,7 +1,7 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/Arthur1/dpr/main/dprcconfig.schema.json
 
 region: ap-northeast-1
-packages-store:
+package-store:
   s3-bucket-name: dpr-example
-tags-db:
+tag-db:
   dynamodb-table-name: dpr-example

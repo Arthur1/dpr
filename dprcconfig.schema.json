@@ -3,7 +3,7 @@
     "Config": {
       "additionalProperties": false,
       "properties": {
-        "packages-store": {
+        "package-store": {
           "additionalProperties": false,
           "properties": {
             "s3-bucket-name": {
@@ -23,7 +23,7 @@
           ],
           "type": "string"
         },
-        "tags-db": {
+        "tag-db": {
           "additionalProperties": false,
           "properties": {
             "dynamodb-table-name": {
@@ -39,8 +39,8 @@
       },
       "required": [
         "region",
-        "packages-store",
-        "tags-db"
+        "package-store",
+        "tag-db"
       ],
       "type": "object"
     }

@@ -29,9 +29,10 @@ func (v VersionFlag) BeforeApply(app *kong.Kong, vars kong.Vars) error {
 
 var cli struct {
 	Globals
-	Push    PushCmd    `cmd:"" help:"push deploy package"`
-	Pull    PullCmd    `cmd:"" help:"pull deploy package"`
-	Version VersionCmd `cmd:"" help:"print version information"`
+	Push                 PushCmd                 `cmd:"" help:"push deploy package"`
+	Pull                 PullCmd                 `cmd:"" help:"pull deploy package"`
+	ApplyLifecyclePolicy ApplyLifecyclePolicyCmd `cmd:"" help:"apply lifecycle policy and delete expired packages"`
+	Version              VersionCmd              `cmd:"" help:"print version information"`
 }
 
 type Cli struct{}

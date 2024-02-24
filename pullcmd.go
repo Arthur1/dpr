@@ -8,16 +8,14 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/aws/aws-sdk-go-v2/aws"
+	"github.com/Arthur1/dpr/packagestore"
+	"github.com/Arthur1/dpr/tagdb"
 	"github.com/aws/aws-sdk-go-v2/config"
-	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue"
-	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
-	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
-	"github.com/aws/aws-sdk-go-v2/service/s3"
 )
 
 type PullCmd struct {
-	Tag       string `name:"tag" short:"t" required:"" help:"tag for search condition"`
+	Tag       string `name:"tag" short:"t" help:"tag for search condition"`
+	Digest    string `name:"digest" short:"d" help:"digest for search condition"`
 	CheckOnly bool   `name:"check-only" help:"checks for the existence of the package file, but does not download it"`
 }
 
@@ -34,61 +32,55 @@ func (c *PullCmd) Run(globals *Globals) error {
 		return err
 	}
 
-	sdkConfig, err := config.LoadDefaultConfig(ctx, config.WithRegion(cfg.Region))
+	tag := c.Tag
+	if c.Digest != "" {
+		tag = fmt.Sprintf("@%s", c.Digest)
+	}
+
+	awsConfig, err := config.LoadDefaultConfig(ctx, config.WithRegion(cfg.Region))
 	if err != nil {
 		return err
 	}
-	s3Client := s3.NewFromConfig(sdkConfig)
-	dynamoDBClient := dynamodb.NewFromConfig(sdkConfig)
+	packageStoreClient := packagestore.NewClient(awsConfig, cfg.PackageStore.S3BucketName)
+	tagDBClient := tagdb.NewClient(awsConfig, cfg.TagDB.DynamoDBTableName)
 
-	getItemResult, err := dynamoDBClient.GetItem(ctx, &dynamodb.GetItemInput{
-		TableName: aws.String(cfg.TagsDB.DynamoDBTableName),
-		Key: map[string]types.AttributeValue{
-			"tag": &types.AttributeValueMemberS{
-				Value: c.Tag,
-			},
-		},
-		ConsistentRead: aws.Bool(true),
+	tagRow, err := tagDBClient.FindByTag(ctx, &tagdb.FindByTagInput{
+		Tag: tag,
 	})
 	if err != nil {
 		return err
 	}
-	tagRow := Tag{}
-	if err = attributevalue.UnmarshalMap(getItemResult.Item, &tagRow); err != nil {
-		return err
-	}
+	objectKey := tagRow.ObjectKey
 
 	if c.CheckOnly {
-		if _, err := s3Client.HeadObject(ctx, &s3.HeadObjectInput{
-			Bucket: aws.String(cfg.PackagesStore.S3BucketName),
-			Key:    aws.String(tagRow.ObjectKey),
+		if _, err := packageStoreClient.ExistsPackage(ctx, &packagestore.ExistsPackageInput{
+			ObjectKey: objectKey,
 		}); err != nil {
 			return err
 		}
 	} else {
-		getObjectResult, err := s3Client.GetObject(ctx, &s3.GetObjectInput{
-			Bucket: aws.String(cfg.PackagesStore.S3BucketName),
-			Key:    aws.String(tagRow.ObjectKey),
+		body, err := packageStoreClient.FindPackage(ctx, &packagestore.FindPackageInput{
+			ObjectKey: objectKey,
 		})
 		if err != nil {
 			return err
 		}
-		defer getObjectResult.Body.Close()
+		defer body.Close()
 
-		_, filename := filepath.Split(tagRow.ObjectKey)
+		_, filename := filepath.Split(objectKey)
 		file, err := os.Create(filename)
 		if err != nil {
 			return err
 		}
 		defer file.Close()
-		if _, err := io.Copy(file, getObjectResult.Body); err != nil {
+		if _, err := io.Copy(file, body); err != nil {
 			return err
 		}
 	}
 
 	output := PullCmdOutput{
-		S3Bucket: cfg.PackagesStore.S3BucketName,
-		S3Key:    tagRow.ObjectKey,
+		S3Bucket: cfg.PackageStore.S3BucketName,
+		S3Key:    objectKey,
 	}
 	outputJson, err := json.Marshal(output)
 	if err != nil {
