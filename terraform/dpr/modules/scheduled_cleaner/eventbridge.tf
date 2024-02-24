@@ -8,7 +8,7 @@ resource "aws_cloudwatch_event_rule" "schedule_rule" {
 
 resource "aws_lambda_permission" "this" {
   action        = "lambda:InvokeFunction"
-  function_name = module.aws_lambda_function.name
+  function_name = var.function_name
   principal     = "events.amazonaws.com"
-  source_arn    = aws_cloudwatch_event_rule.cron_rule.arn
+  source_arn    = aws_cloudwatch_event_rule.schedule_rule.arn
 }

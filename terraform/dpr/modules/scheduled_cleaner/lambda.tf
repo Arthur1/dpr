@@ -1,9 +1,9 @@
 
-resource "aws_lambda_function" "cleaner_cron" {
+resource "aws_lambda_function" "scheduled_cleaner" {
   function_name    = var.function_name
   runtime          = "provided.al2023"
   handler          = "main"
-  role             = aws_iam_role.cleaner_cron.arn
+  role             = aws_iam_role.scheduled_cleaner.arn
   architectures    = ["arm64"]
   memory_size      = var.function_memory_size
   timeout          = var.function_timeout

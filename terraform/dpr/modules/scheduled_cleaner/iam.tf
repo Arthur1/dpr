@@ -20,7 +20,7 @@ data "aws_iam_policy" "lambda_basic_execution" {
 }
 
 resource "aws_iam_role_policy_attachment" "lambda_basic_execution" {
-  role       = aws_iam_role.cleaner_cron.name
+  role       = aws_iam_role.scheduled_cleaner.name
   policy_arn = data.aws_iam_policy.lambda_basic_execution.arn
 }
 
@@ -49,6 +49,6 @@ data "aws_iam_policy_document" "scheduled_cleaner" {
 
 resource "aws_iam_role_policy" "scheduled_cleaner" {
   name   = "test_policy"
-  role   = aws_iam_role.cleaner_cron.id
-  policy = jsonencode(data.aws_iam_policy_document.cleaner_cron)
+  role   = aws_iam_role.scheduled_cleaner.id
+  policy = jsonencode(data.aws_iam_policy_document.scheduled_cleaner)
 }
