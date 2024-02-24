@@ -5,7 +5,6 @@
 |------|---------|
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 5.27.0 |
 | <a name="requirement_github"></a> [github](#requirement\_github) | ~> 6.0 |
-| <a name="requirement_null_resource"></a> [null\_resource](#requirement\_null\_resource) | ~> 3.0 |
 
 ## Providers
 
@@ -13,7 +12,7 @@
 |------|---------|
 | <a name="provider_aws"></a> [aws](#provider\_aws) | >= 5.27.0 |
 | <a name="provider_github"></a> [github](#provider\_github) | ~> 6.0 |
-| <a name="provider_null"></a> [null](#provider\_null) | n/a |
+| <a name="provider_terraform"></a> [terraform](#provider\_terraform) | n/a |
 
 ## Modules
 
@@ -29,7 +28,7 @@ No modules.
 | [aws_iam_role_policy_attachment.lambda_basic_execution](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
 | [aws_lambda_function.cleaner_cron](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_function) | resource |
 | [aws_lambda_permission.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_permission) | resource |
-| [null_resource.dpr_cleaner_eventbridge_lambda](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource) | resource |
+| [terraform_data.dpr_cleaner_eventbridge_lambda](https://registry.terraform.io/providers/hashicorp/terraform/latest/docs/resources/data) | resource |
 | [aws_iam_policy.lambda_basic_execution](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy) | data source |
 | [aws_iam_policy_document.assume_role_lambda](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_iam_policy_document.scheduled_cleaner](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |

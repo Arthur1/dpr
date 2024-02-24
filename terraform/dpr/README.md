@@ -5,7 +5,6 @@
 |------|---------|
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 5.27.0 |
 | <a name="requirement_github"></a> [github](#requirement\_github) | ~> 6.0 |
-| <a name="requirement_null_resource"></a> [null\_resource](#requirement\_null\_resource) | ~> 3.0 |
 
 ## Providers
 
