@@ -2,6 +2,7 @@ package tagdb
 
 import (
 	"context"
+	"strings"
 	"time"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
@@ -32,7 +33,12 @@ type PutTagsInput struct {
 
 func (c *Client) PutTags(ctx context.Context, input *PutTagsInput) error {
 	for _, tag := range input.Tags {
+		typ := "tag"
+		if strings.HasPrefix(tag, "@") {
+			typ = "digest"
+		}
 		tagRow := TagRow{
+			Type:      typ,
 			Tag:       tag,
 			ObjectKey: input.ObjectKey,
 			UpdatedAt: attributevalue.UnixTime(input.UpdatedAt),
@@ -57,9 +63,16 @@ type FindByTagInput struct {
 }
 
 func (c *Client) FindByTag(ctx context.Context, input *FindByTagInput) (*TagRow, error) {
+	typ := "tag"
+	if strings.HasPrefix(input.Tag, "@") {
+		typ = "digest"
+	}
 	getItemResult, err := c.dynamodbCli.GetItem(ctx, &dynamodb.GetItemInput{
 		TableName: aws.String(c.tableName),
 		Key: map[string]types.AttributeValue{
+			"type": &types.AttributeValueMemberS{
+				Value: typ,
+			},
 			"tag": &types.AttributeValueMemberS{
 				Value: input.Tag,
 			},

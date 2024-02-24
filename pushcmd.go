@@ -66,5 +66,6 @@ func (c *PushCmd) Run(globals *Globals) error {
 	}); err != nil {
 		return err
 	}
+	fmt.Println("Pushed.")
 	return nil
 }

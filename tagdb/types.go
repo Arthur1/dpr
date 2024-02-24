@@ -6,8 +6,9 @@ import (
 )
 
 type TagRow struct {
-	Tag       string                  `dynamodbav:"tag"`
-	ObjectKey string                  `dynamodbav:"object_key"`
+	Type      string                  `dynamodbav:"type"`       // PK
+	Tag       string                  `dynamodbav:"tag"`        // SK, GSI1SK
+	ObjectKey string                  `dynamodbav:"object_key"` // GSI1PK
 	UpdatedAt attributevalue.UnixTime `dynamodbav:"updated_at"`
 }
 
@@ -16,5 +17,12 @@ func (r *TagRow) GetKey() map[string]types.AttributeValue {
 	if err != nil {
 		panic(err)
 	}
-	return map[string]types.AttributeValue{"tag": tag}
+	typ, err := attributevalue.Marshal(r.Type)
+	if err != nil {
+		panic(err)
+	}
+	return map[string]types.AttributeValue{
+		"type": typ,
+		"tag":  tag,
+	}
 }
