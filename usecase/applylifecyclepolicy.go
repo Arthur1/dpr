@@ -13,7 +13,10 @@ import (
 )
 
 type ApplyLifecyclePolicyUsecase interface {
-	ApplyLifecyclePolicy(ctx context.Context, param *ApplyLifecyclePolicyParam) (*ApplyLifecyclePolicyResult, error)
+	ApplyLifecyclePolicy(
+		ctx context.Context,
+		param *ApplyLifecyclePolicyParam,
+	) (*ApplyLifecyclePolicyResult, error)
 }
 
 type ApplyLifecyclePolicyUsecaseImpl struct {
@@ -39,7 +42,10 @@ type ApplyLifecyclePolicyResult struct {
 	ExpiredDeployPackages []*deploypackage.DeployPackage
 }
 
-func (u *ApplyLifecyclePolicyUsecaseImpl) ApplyLifecyclePolicy(ctx context.Context, param *ApplyLifecyclePolicyParam) (*ApplyLifecyclePolicyResult, error) {
+func (u *ApplyLifecyclePolicyUsecaseImpl) ApplyLifecyclePolicy(
+	ctx context.Context,
+	param *ApplyLifecyclePolicyParam,
+) (*ApplyLifecyclePolicyResult, error) {
 	var targetDps []*deploypackage.DeployPackage
 	for _, rule := range param.LifecyclePolicy.Rules {
 		if rule.Action.Type != lifecyclepolicy.ActionTypeExpire {
@@ -76,6 +82,15 @@ func (u *ApplyLifecyclePolicyUsecaseImpl) ApplyLifecyclePolicy(ctx context.Conte
 			if targetDpsByRule, err = u.targetPackagesForUntaggedRule(ctx, filterFunc); err != nil {
 				return nil, err
 			}
+		case lifecyclepolicy.TagStatusTagged:
+			if len(rule.Selection.TagPrefixList) == 0 {
+				return nil, fmt.Errorf("selection.tag-prefix-list is required when selection.tag-status is tagged")
+			}
+			if targetDpsByRule, err = u.targetPackagesForTaggedPrefixRule(
+				ctx, rule.Selection.TagPrefixList, filterFunc,
+			); err != nil {
+				return nil, err
+			}
 		default:
 			return nil, fmt.Errorf("\"%s\" is not supported for selection.tag-status value", rule.Selection.TagStatus)
 		}
@@ -107,7 +122,27 @@ func (u *ApplyLifecyclePolicyUsecaseImpl) targetPackagesForUntaggedRule(
 	ctx context.Context,
 	filterFunc func(int, int, *deploypackage.DeployPackage) bool,
 ) ([]*deploypackage.DeployPackage, error) {
-	dps, err := u.deployPackageRepository.GetUntaggedWithSortByUpdatedAtDesc(ctx)
+	dps, err := u.deployPackageRepository.GetUntaggedWithSortByUpdatedAtAsc(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	filteredDps := make([]*deploypackage.DeployPackage, 0, len(dps))
+	for idx, dp := range dps {
+		if filterFunc(len(dps), idx, dp) {
+			filteredDps = append(filteredDps, dp)
+		}
+	}
+
+	return filteredDps, nil
+}
+
+func (u *ApplyLifecyclePolicyUsecaseImpl) targetPackagesForTaggedPrefixRule(
+	ctx context.Context,
+	prefixes []string,
+	filterFunc func(int, int, *deploypackage.DeployPackage) bool,
+) ([]*deploypackage.DeployPackage, error) {
+	dps, err := u.deployPackageRepository.GetTaggedPrefixesWithSortByUpdatedAtAsc(ctx, prefixes)
 	if err != nil {
 		return nil, err
 	}

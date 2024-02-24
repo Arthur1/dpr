@@ -16,7 +16,8 @@ type DeployPackageRepository interface {
 	Save(ctx context.Context, dp *DeployPackage) error
 	FindByTag(ctx context.Context, tag string) (*DeployPackage, error)
 	FindByDigest(ctx context.Context, digest string) (*DeployPackage, error)
-	GetUntaggedWithSortByUpdatedAtDesc(ctx context.Context) ([]*DeployPackage, error)
+	GetUntaggedWithSortByUpdatedAtAsc(ctx context.Context) ([]*DeployPackage, error)
+	GetTaggedPrefixesWithSortByUpdatedAtAsc(ctx context.Context, prefixes []string) ([]*DeployPackage, error)
 	LoadFile(ctx context.Context, dp *DeployPackage) (*DeployPackage, error)
 	DeleteMultiple(ctx context.Context, dps []*DeployPackage) error
 }
@@ -118,7 +119,7 @@ func (r *DeployPackageRepositoryImpl) FindByDigest(ctx context.Context, digest s
 	}, nil
 }
 
-func (r *DeployPackageRepositoryImpl) GetUntaggedWithSortByUpdatedAtDesc(ctx context.Context) ([]*DeployPackage, error) {
+func (r *DeployPackageRepositoryImpl) GetUntaggedWithSortByUpdatedAtAsc(ctx context.Context) ([]*DeployPackage, error) {
 	tagRows, err := r.tagDBCli.GetAll(ctx)
 	if err != nil {
 		return nil, err
@@ -143,6 +144,53 @@ func (r *DeployPackageRepositoryImpl) GetUntaggedWithSortByUpdatedAtDesc(ctx con
 			ObjectKey:    tagRow.ObjectKey,
 			UpdatedAt:    tagRow.UpdatedAt,
 		})
+	}
+
+	slices.SortFunc(dps, func(a, b *DeployPackage) int {
+		return cmp.Compare(a.UpdatedAt.Unix(), b.UpdatedAt.Unix())
+	})
+
+	return dps, nil
+}
+
+func (r *DeployPackageRepositoryImpl) GetTaggedPrefixesWithSortByUpdatedAtAsc(
+	ctx context.Context,
+	prefixes []string,
+) ([]*DeployPackage, error) {
+	m := map[string]int{}
+	for _, prefix := range prefixes {
+		tagRows, err := r.tagDBCli.GetByTagPrefix(ctx, prefix)
+		if err != nil {
+			return nil, err
+		}
+		for _, tagRow := range tagRows {
+			m[tagRow.ObjectKey]++
+		}
+	}
+
+	targetObjectKeys := make([]string, 0, len(m))
+	for objectKey, cnt := range m {
+		if len(prefixes) == cnt {
+			targetObjectKeys = append(targetObjectKeys, objectKey)
+		}
+	}
+
+	dps := make([]*DeployPackage, 0, len(targetObjectKeys))
+	for _, objectKey := range targetObjectKeys {
+		tagRows, err := r.tagDBCli.GetByObjectKey(ctx, objectKey)
+		if err != nil {
+			return nil, err
+		}
+		digest, tags := convertTagRowsToDigestAndTag(tagRows)
+		updatedAt := getLastUpdatedAtFromTagRows(tagRows)
+		dp := &DeployPackage{
+			Digest:       digest,
+			Tags:         tags,
+			ObjectBucket: r.packageStoreCli.GetBucketName(ctx),
+			ObjectKey:    objectKey,
+			UpdatedAt:    updatedAt,
+		}
+		dps = append(dps, dp)
 	}
 
 	slices.SortFunc(dps, func(a, b *DeployPackage) int {
