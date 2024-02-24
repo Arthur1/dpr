@@ -6,10 +6,6 @@ resource "aws_cloudwatch_event_rule" "schedule_rule" {
   tags                = var.tags
 }
 
-locals {
-  lifecycle_policy = yamldecode(file("dprlifecyclepolicy.yml"))
-}
-
 resource "aws_cloudwatch_event_target" "schedule_rule" {
   rule = aws_cloudwatch_event_rule.schedule_rule.name
   arn  = aws_lambda_function.scheduled_cleaner.arn
