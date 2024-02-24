@@ -65,7 +65,6 @@ func (c *PullCmd) Run(globals *Globals) error {
 	fmt.Println(string(outputJson))
 
 	if result.DeployPackage.File != nil {
-		fmt.Println("a")
 		_, filename := filepath.Split(result.DeployPackage.ObjectKey)
 		file, err := os.Create(filename)
 		if err != nil {
