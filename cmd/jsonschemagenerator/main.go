@@ -10,24 +10,30 @@ import (
 )
 
 func main() {
-	schema := jsonschema.Reflect(new(dpr.Config))
-	b, err := schema.MarshalJSON()
-	if err != nil {
-		log.Fatalln(err)
+	cases := map[any]string{
+		new(dpr.RawConfig):       "dprcconfig.schema.json",
+		new(dpr.LifecyclePolicy): "dprlifecyclepolicy.schema.json",
 	}
+	for obj, file := range cases {
+		schema := jsonschema.Reflect(obj)
+		b, err := schema.MarshalJSON()
+		if err != nil {
+			log.Fatalln(err)
+		}
 
-	// workaround: *jsonschema.Schema does not have MarshalIndent()
-	var a any
-	if err := json.Unmarshal(b, &a); err != nil {
-		log.Fatalln(err)
-	}
-	pb, err := json.MarshalIndent(a, "", "  ")
-	if err != nil {
-		log.Fatalln(err)
-	}
-	pb = append(pb, byte('\n'))
+		// workaround: *jsonschema.Schema does not have MarshalIndent()
+		var a any
+		if err := json.Unmarshal(b, &a); err != nil {
+			log.Fatalln(err)
+		}
+		pb, err := json.MarshalIndent(a, "", "  ")
+		if err != nil {
+			log.Fatalln(err)
+		}
+		pb = append(pb, byte('\n'))
 
-	if err := os.WriteFile("dprcconfig.schema.json", pb, 0666); err != nil {
-		log.Fatalln(err)
+		if err := os.WriteFile(file, pb, 0666); err != nil {
+			log.Fatalln(err)
+		}
 	}
 }

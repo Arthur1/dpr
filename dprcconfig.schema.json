@@ -1,6 +1,6 @@
 {
   "$defs": {
-    "Config": {
+    "RawConfig": {
       "additionalProperties": false,
       "properties": {
         "package-store": {
@@ -45,7 +45,7 @@
       "type": "object"
     }
   },
-  "$id": "https://github.com/Arthur1/dpr/config",
-  "$ref": "#/$defs/Config",
+  "$id": "https://github.com/Arthur1/dpr/raw-config",
+  "$ref": "#/$defs/RawConfig",
   "$schema": "https://json-schema.org/draft/2020-12/schema"
 }

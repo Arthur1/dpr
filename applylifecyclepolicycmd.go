@@ -36,20 +36,20 @@ func (c *ApplyLifecyclePolicyCmd) Run(globals *Globals) error {
 
 	var targetObjectKeys []string
 	for _, rule := range policy.Rules {
-		if rule.Action.Type != "expire" {
-			return fmt.Errorf("\"expire\" is only supported for action.type value")
+		if rule.Action.Type != ActionTypeExpired {
+			return fmt.Errorf("\"%s\" is only supported for action.type value", ActionTypeExpired)
 		}
 
 		var filterFunc func(int, int, *tagdb.TagRow) bool
 		switch rule.Selection.CountType {
-		case "since-package-pushed":
+		case CountTypeSincePackagePushed:
 			if filterFunc, err = buildFilterFuncSincePackagePushed(
 				rule.Selection.CountUnit,
 				rule.Selection.CountValue,
 			); err != nil {
 				return err
 			}
-		case "package-count-more-than":
+		case CountTypePackageCountMoreThan:
 			if filterFunc, err = buildFilterFuncPackageCountMoreThan(
 				rule.Selection.CountValue,
 			); err != nil {
@@ -61,7 +61,7 @@ func (c *ApplyLifecyclePolicyCmd) Run(globals *Globals) error {
 
 		var targetObjectKeysPage []string
 		switch rule.Selection.TagStatus {
-		case "untagged":
+		case TagStatusUntagged:
 			if targetObjectKeys, err = c.targetObjectsForUntaggedRule(ctx, tagDBClient, filterFunc); err != nil {
 				return err
 			}
