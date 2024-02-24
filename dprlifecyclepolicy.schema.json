@@ -57,9 +57,7 @@
                 },
                 "required": [
                   "tag-status",
-                  "tag-prefix-list",
                   "count-type",
-                  "count-unit",
                   "count-value"
                 ],
                 "type": "object"

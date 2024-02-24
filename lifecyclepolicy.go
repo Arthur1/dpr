@@ -32,9 +32,9 @@ type LifecyclePolicy struct {
 		Description string `yaml:"description" json:"description"`
 		Selection   struct {
 			TagStatus     string   `yaml:"tag-status" json:"tag-status" jsonschema:"required,enum=untagged,enum=tagged"`
-			TagPrefixList []string `yaml:"tag-prefix-list" json:"tag-prefix-list"`
+			TagPrefixList []string `yaml:"tag-prefix-list,omitempty" json:"tag-prefix-list,omitempty"`
 			CountType     string   `yaml:"count-type" json:"count-type" jsonschema:"required,enum=since-package-pushed,enum=package-count-more-than"`
-			CountUnit     string   `yaml:"count-unit" json:"count-unit"`
+			CountUnit     string   `yaml:"count-unit,omitempty" json:"count-unit,omitempty"`
 			CountValue    int64    `yaml:"count-value" json:"count-value" jsonschema:"required"`
 		} `yaml:"selection" json:"selection" jsonschema:"required"`
 		Action struct {
