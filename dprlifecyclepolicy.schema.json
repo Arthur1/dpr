@@ -41,15 +41,23 @@
                   "count-value": {
                     "type": "integer"
                   },
+                  "tag-prefix-list": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
                   "tag-status": {
                     "enum": [
-                      "untagged"
+                      "untagged",
+                      "tagged"
                     ],
                     "type": "string"
                   }
                 },
                 "required": [
                   "tag-status",
+                  "tag-prefix-list",
                   "count-type",
                   "count-unit",
                   "count-value"

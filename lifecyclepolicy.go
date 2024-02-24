@@ -11,6 +11,7 @@ type TagStatus = string
 
 const (
 	TagStatusUntagged TagStatus = "untagged"
+	TagStatusTagged   TagStatus = "tagged"
 )
 
 type CountType = string
@@ -30,10 +31,11 @@ type LifecyclePolicy struct {
 	Rules []struct {
 		Description string `yaml:"description" json:"description"`
 		Selection   struct {
-			TagStatus  string `yaml:"tag-status" json:"tag-status" jsonschema:"required,enum=untagged"`
-			CountType  string `yaml:"count-type" json:"count-type" jsonschema:"required,enum=since-package-pushed,enum=package-count-more-than"`
-			CountUnit  string `yaml:"count-unit" json:"count-unit"`
-			CountValue int64  `yaml:"count-value" json:"count-value" jsonschema:"required"`
+			TagStatus     string   `yaml:"tag-status" json:"tag-status" jsonschema:"required,enum=untagged,enum=tagged"`
+			TagPrefixList []string `yaml:"tag-prefix-list" json:"tag-prefix-list"`
+			CountType     string   `yaml:"count-type" json:"count-type" jsonschema:"required,enum=since-package-pushed,enum=package-count-more-than"`
+			CountUnit     string   `yaml:"count-unit" json:"count-unit"`
+			CountValue    int64    `yaml:"count-value" json:"count-value" jsonschema:"required"`
 		} `yaml:"selection" json:"selection" jsonschema:"required"`
 		Action struct {
 			Type string `yaml:"type" json:"type" jsonschema:"required,enum=expire"`
