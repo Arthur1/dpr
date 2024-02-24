@@ -24,6 +24,14 @@ resource "aws_iam_role_policy_attachment" "lambda_basic_execution" {
   policy_arn = data.aws_iam_policy.lambda_basic_execution.arn
 }
 
+data "aws_s3_bucket" "package_store" {
+  bucket = var.package_store_s3_bucket_name
+}
+
+data "aws_dynamodb_table" "tag_db" {
+  name = var.tag_db_dynamodb_table_name
+}
+
 data "aws_iam_policy_document" "scheduled_cleaner" {
   statement {
     effect = "Allow"
@@ -34,7 +42,7 @@ data "aws_iam_policy_document" "scheduled_cleaner" {
       "dynamodb:DeleteItem",
     ]
     resources = [
-      var.tag_db_dynamodb_table_arn
+      data.aws_dynamodb_table.tag_db.arn
     ]
   }
   statement {
@@ -44,7 +52,7 @@ data "aws_iam_policy_document" "scheduled_cleaner" {
       "s3:DeleteObject",
     ]
     resources = [
-      "${var.package_store_s3_bucket_arn}/*"
+      "${data.aws_s3_bucket.package_store.arn}/*"
     ]
   }
 }

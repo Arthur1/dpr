@@ -14,3 +14,10 @@ resource "aws_lambda_function" "scheduled_cleaner" {
     terraform_data.dpr_cleaner_eventbridge_lambda
   ]
 }
+
+resource "aws_lambda_permission" "schedule_rule" {
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.scheduled_cleaner.function_name
+  principal     = "events.amazonaws.com"
+  source_arn    = aws_cloudwatch_event_rule.schedule_rule.arn
+}
