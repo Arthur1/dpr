@@ -93,16 +93,6 @@ func (u *ApplyLifecyclePolicyUsecaseImpl) ApplyLifecyclePolicy(ctx context.Conte
 		ExpiredDeployPackages: targetDps,
 	}
 
-	/*
-		if len(targetDps) > 0 {
-			fmt.Println("The following packages are expired:")
-			for _, dp := range targetDps {
-				fmt.Printf("- %s\n", dp.ObjectKey)
-			}
-		} else {
-			fmt.Println("No packages are expired.")
-		}
-	*/
 	if param.DryRun || len(targetDps) == 0 {
 		return result, nil
 	}
