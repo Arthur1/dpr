@@ -4,6 +4,8 @@
 | Name | Version |
 |------|---------|
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 5.27.0 |
+| <a name="requirement_github"></a> [github](#requirement\_github) | ~> 6.0 |
+| <a name="requirement_null_resource"></a> [null\_resource](#requirement\_null\_resource) | ~> 3.0 |
 
 ## Providers
 
@@ -13,7 +15,9 @@
 
 ## Modules
 
-No modules.
+| Name | Source | Version |
+|------|--------|---------|
+| <a name="module_scheduled_cleaner"></a> [scheduled\_cleaner](#module\_scheduled\_cleaner) | ./modules/scheduled_cleaner | n/a |
 
 ## Resources
 

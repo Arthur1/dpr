@@ -22,6 +22,7 @@ jobs:
           output-file: README.md
           output-method: inject
           working-dir: terraform/dpr
+          recursive: true
       - run: |
           DIFF=$(git status --porcelain)
           if [ -n "$DIFF" ]; then
