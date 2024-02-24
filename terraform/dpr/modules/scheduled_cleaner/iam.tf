@@ -52,5 +52,5 @@ data "aws_iam_policy_document" "scheduled_cleaner" {
 resource "aws_iam_role_policy" "scheduled_cleaner" {
   name   = "${var.function_name}-scheduled-cleaner-policy"
   role   = aws_iam_role.scheduled_cleaner.id
-  policy = jsonencode(data.aws_iam_policy_document.scheduled_cleaner)
+  policy = data.aws_iam_policy_document.scheduled_cleaner.json
 }
