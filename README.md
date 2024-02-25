@@ -6,6 +6,9 @@
 
 DPR manages deployment packages freely and conveniently with tags, <b>like a container registry</b>. It aims to store files such as AWS Lambda zip archives and static site generation artifacts.
 
+> [!WARNING]
+> This project is in Alpha status. We may make disruptive changes without notice. Use in a production environment is at your own risk.
+
 ## Components
 
 ![components](./docs/img/components.png)
