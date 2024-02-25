@@ -14,7 +14,7 @@ require (
 	github.com/gabriel-vasile/mimetype v1.4.3
 	github.com/invopop/jsonschema v0.12.0
 	github.com/k1LoW/duration v1.2.0
-	github.com/stretchr/testify v1.8.1
+	github.com/stretchr/testify v1.8.4
 	gopkg.in/yaml.v3 v3.0.1
 )
 
