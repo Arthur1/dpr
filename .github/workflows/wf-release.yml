@@ -20,7 +20,7 @@ jobs:
           private-key: ${{ secrets.ARTHUR1_BOT_PRIVATE_KEY }}
           owner: ${{ github.repository_owner }}
           repositories: "dpr,homebrew-tap"
-      - uses: goreleaser/goreleaser-action@v5
+      - uses: goreleaser/goreleaser-action@v6
         with:
           args: release --clean
           distribution: goreleaser
