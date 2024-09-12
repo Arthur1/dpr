@@ -3,7 +3,7 @@ module github.com/Arthur1/dpr
 go 1.22.0
 
 require (
-	github.com/alecthomas/kong v0.8.1
+	github.com/alecthomas/kong v1.2.1
 	github.com/aws/aws-lambda-go v1.46.0
 	github.com/aws/aws-sdk-go-v2 v1.25.2
 	github.com/aws/aws-sdk-go-v2/config v1.27.4
