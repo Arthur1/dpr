@@ -11,7 +11,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/feature/dynamodb/expression v1.7.6
 	github.com/aws/aws-sdk-go-v2/service/dynamodb v1.30.1
 	github.com/aws/aws-sdk-go-v2/service/s3 v1.51.1
-	github.com/gabriel-vasile/mimetype v1.4.3
+	github.com/gabriel-vasile/mimetype v1.4.6
 	github.com/invopop/jsonschema v0.12.0
 	github.com/k1LoW/duration v1.2.0
 	github.com/stretchr/testify v1.8.4
@@ -43,5 +43,5 @@ require (
 	github.com/mailru/easyjson v0.7.7 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/wk8/go-ordered-map/v2 v2.1.8 // indirect
-	golang.org/x/net v0.17.0 // indirect
+	golang.org/x/net v0.30.0 // indirect
 )
