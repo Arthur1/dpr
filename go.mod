@@ -14,7 +14,7 @@ require (
 	github.com/gabriel-vasile/mimetype v1.4.3
 	github.com/invopop/jsonschema v0.12.0
 	github.com/k1LoW/duration v1.2.0
-	github.com/stretchr/testify v1.8.4
+	github.com/stretchr/testify v1.12.1
 	gopkg.in/yaml.v3 v3.0.1
 )
 
@@ -43,5 +43,6 @@ require (
 	github.com/mailru/easyjson v0.7.7 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/wk8/go-ordered-map/v2 v2.1.8 // indirect
+	go.yaml.in/yaml/v3 v3.0.5 // indirect
 	golang.org/x/net v0.17.0 // indirect
 )
