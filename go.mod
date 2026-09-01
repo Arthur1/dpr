@@ -11,7 +11,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/feature/dynamodb/expression v1.7.6
 	github.com/aws/aws-sdk-go-v2/service/dynamodb v1.30.1
 	github.com/aws/aws-sdk-go-v2/service/s3 v1.51.1
-	github.com/gabriel-vasile/mimetype v1.4.3
+	github.com/gabriel-vasile/mimetype v1.4.15
 	github.com/invopop/jsonschema v0.12.0
 	github.com/k1LoW/duration v1.2.0
 	github.com/stretchr/testify v1.8.4
